@@ -3,7 +3,7 @@ GEM
   specs:
     args_parser (0.2.0)
     dnssd (2.0)
-    hashie (2.1.2)
+    hashie (3.2.0)
     httparty (0.13.1)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
