@@ -1,11 +1,11 @@
 require 'bundler/setup'
 require 'sinatra'
-require 'sinatra/reloader'
 require 'faraday'
 
 class App < Sinatra::Base
 
   configure :development do
+    Bundler.require :development
     register Sinatra::Reloader
   end
 
