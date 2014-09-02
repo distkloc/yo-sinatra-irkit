@@ -9,10 +9,12 @@ class App < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  get '/callback' do
-    status 400 unless valid_token?
-    status 400 unless valid_user?
+  before do
+    error 401 unless params[:token] == ENV['API_KEY']
+    error 401 unless params[:username] == ENV['USER_NAME']
+  end
 
+  get '/callback' do
     @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
 
     @connection.post do |req|
@@ -25,13 +27,4 @@ class App < Sinatra::Base
     end
   end
 
-  private
-    
-    def valid_token?
-      params[:token] == ENV['API_KEY']
-    end
-
-    def valid_user?
-      params[:username] == ENV['USER_NAME']
-    end
 end
