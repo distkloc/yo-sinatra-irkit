@@ -14,7 +14,7 @@ class App < Sinatra::Base
     error 401 unless params[:username] == ENV['USER_NAME'].upcase
   end
 
-  get '/callback' do
+  get '/on_hook' do
     @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
 
     @connection.post do |req|
