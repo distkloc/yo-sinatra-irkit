@@ -11,7 +11,7 @@ class App < Sinatra::Base
 
   before do
     error 401 unless params[:token] == ENV['API_KEY']
-    error 401 unless params[:username] == ENV['USER_NAME']
+    error 401 unless params[:username] == ENV['USER_NAME'].upcase
   end
 
   get '/callback' do
