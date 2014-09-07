@@ -3,6 +3,15 @@ require 'sinatra'
 require 'faraday'
 require 'yo-ruby'
 
+module SendingYoHelper
+  def yo(username)
+    Yo.yo!(username)
+  rescue YoUserNotFound 
+    error 400
+  rescue YoRateLimitExceeded
+  end
+end
+
 class App < Sinatra::Base
 
   configure :development do
@@ -10,23 +19,19 @@ class App < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  helpers SendingYoHelper
+
   Yo.api_key = ENV['YO_API_KEY']
 
   before do
     error 401 unless params[:token] == ENV['API_KEY']
   end
 
-  after do
-    begin
-      Yo.yo!(ENV['USER_NAME'])
-    rescue YoUserNotFound 
-      error 400
-    rescue YoRateLimitExceeded
-    end
-  end
-
   get '/on_hook' do
-    Yo.from(params, ENV['USER_NAME']) do |link|
+
+    username = ENV['USER_NAME']
+
+    Yo.from(params, username) do |link|
       @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
 
       @connection.post do |req|
@@ -37,6 +42,8 @@ class App < Sinatra::Base
           :message => ENV['ON_MESSAGE']
         }
       end
+
+      yo username
     end
   end
 
