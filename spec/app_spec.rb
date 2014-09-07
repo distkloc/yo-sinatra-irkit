@@ -8,4 +8,21 @@ describe "The Sinatra App for yo-irkit" do
       expect(last_response.status).to eq(401)
     end
   end
+
+  describe '#on_hook', :vcr do
+    before do
+      username = ENV['USER_NAME']
+      api_key = ENV['API_KEY']
+      get "/on_hook?username=#{username}&token=#{api_key}"
+    end
+
+    context "with valid user" do
+      context "and valid token" do
+        # specify { expect(last_response.status).to eq(401) }
+        it 'switch on' do
+          expect(last_response).to be_ok
+        end
+      end
+    end
+  end
 end
