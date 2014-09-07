@@ -9,3 +9,8 @@ gem 'yo-ruby'
 group :development do
   gem 'sinatra-contrib', require: 'sinatra/reloader'
 end
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+end
