@@ -16,6 +16,15 @@ class App < Sinatra::Base
     error 401 unless params[:token] == ENV['API_KEY']
   end
 
+  after do
+    begin
+      Yo.yo!(ENV['USER_NAME'])
+    rescue YoUserNotFound 
+      error 400
+    rescue YoRateLimitExceeded
+    end
+  end
+
   get '/on_hook' do
     Yo.from(params, ENV['USER_NAME']) do |link|
       @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
@@ -29,7 +38,6 @@ class App < Sinatra::Base
         }
       end
     end
-
   end
 
 end
