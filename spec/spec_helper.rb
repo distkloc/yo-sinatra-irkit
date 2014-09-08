@@ -1,6 +1,7 @@
 require 'rspec'
 require 'rack/test'
 require 'vcr'
+require 'uri'
 
 require File.expand_path '../../app.rb', __FILE__
 
@@ -28,5 +29,6 @@ VCR.configure do |c|
   c.filter_sensitive_data("<YO_API_KEY>") { ENV['YO_API_KEY'] }
   c.filter_sensitive_data("<IRKIT_CLIENT_KEY>") { ENV['IRKIT_CLIENT_KEY'] }
   c.filter_sensitive_data("<IRKIT_DEVICE_ID>") { ENV['IRKIT_DEVICE_ID'] }
+  c.filter_sensitive_data("<ON_MESSAGE>") { URI.encode_www_form_component(ENV['ON_MESSAGE']) }
 end
 
