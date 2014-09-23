@@ -32,3 +32,7 @@ VCR.configure do |c|
   c.filter_sensitive_data("<ON_MESSAGE>") { URI.encode_www_form_component(ENV['ON_MESSAGE']) }
 end
 
+
+def switch_on(username: ENV['USER_NAME'], token: ENV['API_KEY'])
+  get "/on_hook?username=#{username}&token=#{token}"
+end
