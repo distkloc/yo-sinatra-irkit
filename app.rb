@@ -39,8 +39,6 @@ class App < Sinatra::Base
   helpers SendingYoHelper
   helpers IrkitHelper
 
-  Yo.api_key = ENV['YO_API_KEY']
-
   before do
     error 401 unless params[:username] && params[:username].upcase == ENV['USER_NAME'].upcase
     error 401 unless params[:token] == ENV['API_KEY']
@@ -48,11 +46,13 @@ class App < Sinatra::Base
 
   get '/on_hook' do
     send ENV['ON_MESSAGE']
+    Yo.api_key = ENV['YO_ON_API_KEY']
     yo ENV['USER_NAME']
   end
 
   get '/off_hook' do
     send ENV['OFF_MESSAGE']
+    Yo.api_key = ENV['YO_OFF_API_KEY']
     yo ENV['USER_NAME']
   end
 end
