@@ -29,23 +29,20 @@ class App < Sinatra::Base
   end
 
   get '/on_hook' do
+    @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
 
-    username = ENV['USER_NAME']
-
-    Yo.from(params, username) do |link|
-      @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
-
-      @connection.post do |req|
-        req.url '/1/messages'
-        req.body = {
-          :clientkey => ENV['IRKIT_CLIENT_KEY'],
-          :deviceid => ENV['IRKIT_DEVICE_ID'],
-          :message => ENV['ON_MESSAGE']
-        }
-      end
-
-      yo username
+    response = @connection.post do |req|
+      req.url '/1/messages'
+      req.body = {
+        :clientkey => ENV['IRKIT_CLIENT_KEY'],
+        :deviceid => ENV['IRKIT_DEVICE_ID'],
+        :message => ENV['ON_MESSAGE']
+      }
     end
+
+    error response.status unless response.status == 200
+
+    yo ENV['USER_NAME']
   end
 
 end
