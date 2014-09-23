@@ -12,6 +12,23 @@ module SendingYoHelper
   end
 end
 
+module IrkitHelper
+  def send(message)
+    @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
+
+    response = @connection.post do |req|
+      req.url '/1/messages'
+      req.body = {
+        :clientkey => ENV['IRKIT_CLIENT_KEY'],
+        :deviceid => ENV['IRKIT_DEVICE_ID'],
+        :message => message
+      }
+    end
+
+    error response.status unless response.status == 200
+  end
+end
+
 class App < Sinatra::Base
 
   configure :development do
@@ -20,6 +37,7 @@ class App < Sinatra::Base
   end
 
   helpers SendingYoHelper
+  helpers IrkitHelper
 
   Yo.api_key = ENV['YO_API_KEY']
 
@@ -29,20 +47,12 @@ class App < Sinatra::Base
   end
 
   get '/on_hook' do
-    @connection ||= Faraday.new(:url => 'https://api.getirkit.com')
-
-    response = @connection.post do |req|
-      req.url '/1/messages'
-      req.body = {
-        :clientkey => ENV['IRKIT_CLIENT_KEY'],
-        :deviceid => ENV['IRKIT_DEVICE_ID'],
-        :message => ENV['ON_MESSAGE']
-      }
-    end
-
-    error response.status unless response.status == 200
-
+    send ENV['ON_MESSAGE']
     yo ENV['USER_NAME']
   end
 
+  get '/off_hook' do
+    send ENV['OFF_MESSAGE']
+    yo ENV['USER_NAME']
+  end
 end
