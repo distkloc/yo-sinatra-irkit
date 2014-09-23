@@ -24,6 +24,7 @@ class App < Sinatra::Base
   Yo.api_key = ENV['YO_API_KEY']
 
   before do
+    error 401 unless params[:username] && params[:username].upcase == ENV['USER_NAME'].upcase
     error 401 unless params[:token] == ENV['API_KEY']
   end
 
