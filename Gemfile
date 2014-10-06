@@ -12,6 +12,7 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'rake'
   gem 'rack-test'
   gem 'vcr'
   gem 'webmock'
