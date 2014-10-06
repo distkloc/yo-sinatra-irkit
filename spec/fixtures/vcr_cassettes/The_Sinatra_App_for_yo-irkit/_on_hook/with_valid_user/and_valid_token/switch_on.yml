@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.getirkit.com/1/messages
     body:
       encoding: UTF-8
-      string: clientkey=<IRKIT_CLIENT_KEY>&deviceid=<IRKIT_DEVICE_ID>&message=<ON_MESSAGE>
+      string: clientkey=<IRKIT_CLIENT_KEY>&deviceid=<IRKIT_DEVICE_ID>&message=<MESSAGE>
     headers:
       User-Agent:
       - Faraday v0.9.0
@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - ngx_openresty
       Date:
-      - Mon, 08 Sep 2014 18:15:05 GMT
+      - Mon, 06 Oct 2014 17:01:07 GMT
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
@@ -40,7 +40,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 08 Sep 2014 18:15:06 GMT
+  recorded_at: Mon, 06 Oct 2014 17:01:07 GMT
 - request:
     method: post
     uri: http://api.justyo.co/yo/
@@ -58,22 +58,22 @@ http_interactions:
       Server:
       - gunicorn/18.0
       Date:
-      - Mon, 08 Sep 2014 18:15:07 GMT
+      - Mon, 06 Oct 2014 17:01:09 GMT
       Transfer-Encoding:
       - chunked
       X-Frame-Options:
       - SAMEORIGIN
       Allow:
       - POST, OPTIONS
-      Vary:
-      - Accept, Cookie
       Content-Type:
       - application/json
+      Vary:
+      - Accept, Cookie
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
       string: '{"result": "OK"}'
     http_version: 
-  recorded_at: Mon, 08 Sep 2014 18:15:07 GMT
+  recorded_at: Mon, 06 Oct 2014 17:01:10 GMT
 recorded_with: VCR 2.9.2
